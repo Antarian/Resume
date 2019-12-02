@@ -1,0 +1,45 @@
+<ion-header>
+    <app-top-toolbar logo="true" pageTitle="Peter Labos"></app-top-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col size-md="9" sizeXs="12">
+                <ion-card class="welcome-card">
+                    <img src="/assets/shapes.svg" alt=""/>
+                    <ion-card-header>
+                        <ion-card-subtitle>Introduction</ion-card-subtitle>
+                        <ion-card-title>Welcome to my personal page</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p>I placed here just few examples of my work and some of my thoughts. Just look in the menu or About me links</p>
+                        <p>This page is based on Ionic 4 with Angular 8 and running on AWS S3 bucket with Route53 as DNS.</p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col size-md="3" size-xs="12">
+                <ion-list lines="none">
+                    <ion-list-header>
+                        <ion-label>About me</ion-label>
+                    </ion-list-header>
+
+                    <ion-item href="https://github.com/Antarian">
+                        <ion-icon slot="start" color="medium" name="logo-github"></ion-icon>
+                        <ion-label>GitHub</ion-label>
+                    </ion-item>
+
+                    <ion-item href="https://www.linkedin.com/in/peter-labo%C5%A1/">
+                        <ion-icon slot="start" color="medium" name="logo-linkedin"></ion-icon>
+                        <ion-label>LinkedIn</ion-label>
+                    </ion-item>
+
+                    <ion-item href="https://stackoverflow.com/users/4494077/peter-labo%c5%a1">
+                        <ion-icon slot="start" color="medium" src="/assets/icon/stackoverflow.svg"></ion-icon>
+                        <ion-label>StackOverflow</ion-label>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

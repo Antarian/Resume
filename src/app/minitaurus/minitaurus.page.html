@@ -1,0 +1,114 @@
+<ion-header>
+    <app-top-toolbar pageTitle="Minitaurus (part 1)"></app-top-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <h1>Minitaurus – creating PHP mini framework<br/><span>(part 1) - in revision</span></h1>
+    <div style="text-align: right;">
+        <ion-button size="small" color="light" href="/minitaurus-part2">Part 2 &raquo;</ion-button>
+    </div>
+    <p>If you using some big framework (Symfony 4, Zend 2, CakePHP etc.) and place your code on GitHub to show some of your work, it is great. It’s good for others to see how you write the code, documentation and handle architecture or solve problems.</p>
+    <p>But large frameworks can be complicated for some small working example. Because people on other side must use same framework too and install it somehow, to see your code in action. Some of the frameworks can have really complicated setup and install.</p>
+    <p>This inspired me to create some small custom mini framework in 2016. And also to learn more behind basics of large frameworks.</p>
+    <p>Minitaurus FW must have basics</p>
+    <ul>
+        <li>PHP5 >= 5.3.0 (namespaces)</li>
+        <li>configuration, environments</li>
+        <li>modules and layered (MVC) architecture</li>
+        <li>autoloading of classes</li>
+        <li>routing, with 404 page</li>
+        <li>debug</li>
+        <li>logs</li>
+    </ul>
+    <p>Minitaurus FW nice to have attributes</p>
+    <ul>
+        <li>template system</li>
+        <li>simple ACL</li>
+        <li>database access</li>
+    </ul>
+    <p>I hope you have some environment, like Docker, Vagrant, LAMP, WAMP to develop in. I am using Docker on Ubuntu linux or on MacOS. It’s not in scope of this tutorial to setup PHP environment. I will just place here some <code>Dockerfile</code> content.</p>
+    <pre><code># development docker file
+FROM php:7.2-cli
+
+LABEL minitaurus-dockerfile=Minitaurus
+
+# prepare php ini settings
+RUN mkdir /usr/src/php
+RUN tar --file /usr/src/php.tar.xz --extract --strip-components=1 --directory /usr/src/php
+RUN cp /usr/src/php/php.ini-development /usr/local/etc/php/php.ini
+
+# prepare workdir
+RUN mkdir -p /usr/src/minitaurus;
+WORKDIR /usr/src/minitaurus</code></pre>
+    <p>and also <code>docker-compose.yaml</code> file. I am usually using this to simplify setup</p>
+    <pre><code># development docker-compose file
+version: '3.6'
+services:
+  minitaurus:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    tty: true
+    ports:
+      - 8080:8080
+    volumes:
+      - type: bind
+        source: ./
+        target: /usr/src/minitaurus
+    command: "php -S 0.0.0.0:8080"</code></pre>
+    <p>and also to add some <code>README.md</code> file &raquo; <a href="">GitHub link</a></p>
+    <p>We want to allow other people to use our project any way they want, so we will use open-source MIT license <code>LICENSE.md</code></p>
+    <pre><code>### The MIT License
+
+Copyright 2019 Peter Labos
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</code></pre>
+    <p>Because I am using PHPStorm as PHP IDE we need to add <code>.gitignore</code> file with one line to project</p>
+    <pre><code>.idea/</code></pre>
+    <h4>Basic setup</h4>
+    <p>We will create file <code>index.php</code> and define some constants for whole application.</p>
+    <pre><code>&lt;?php
+/* index.php */
+// define location of index.php as BASEDIR constant for easier manipulation with files
+defined('BASEDIR') || define("BASEDIR", dirname(__FILE__));
+
+// for using directory separator you must have installed Directories - PHP file system related extensions
+// if you don't have it installed, replace DIRECTORY_SEPARATOR by "/" for Linux or "\\" for Windows
+defined('DIRSEP') || define("DIRSEP", DIRECTORY_SEPARATOR);</code></pre>
+            <p>We will need also one function which will make our life with PHP namespaces much easier.</p>
+            <pre><code>// autoload classes through autoload function
+spl_autoload_register(function($class) {{"{"}}
+    // convert namespace to full file path
+    $class = BASEDIR . DIRSEP . str_replace('\\', DIRSEP, $class) . '.php';
+    try {{"{"}}
+        // check if file exist
+        if (!file_exists($class)) {{"{"}}
+            throw new RuntimeException($class . ' file does not exist.');
+        } else {{"{"}}
+            require_once($class);
+        }
+    } catch(\Exception $e) {{"{"}}
+        // handle the error
+        echo $e->getMessage();
+    }
+});</code></pre>
+            <p>This function is class auto-loader. It converts class name with namespace, one to one, to folder structure with class named file.</p>
+            <p>As last for this part of tutorial we add to the index.php two other constants.</p>
+            <pre><code>// define application environment type constant value from environment variable or set "production" otherwise
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : DebugConfig::PROD_ENV));
+// load debug settings
+DebugConfig::load();
+
+// define if application will use nice urls
+$nice_urls = (getenv('APPLICATION_NICE_URLS') ? true : false);
+defined('APPLICATION_NICE_URLS') || define('APPLICATION_NICE_URLS',
+($nice_urls ? RouterConfig::NICE_URLS_ENBL : RouterConfig::NICE_URLS_DIS));</code></pre>
+            <p>Here we set environment and nice urls for router. We will create DebugConfig and RouterConfig in next parts of this tutorial.</p>
+    <div style="text-align: right;">
+        <ion-button size="small" color="light" href="/minitaurus-part2">Part 2 &raquo;</ion-button>
+    </div>
+</ion-content>
