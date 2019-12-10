@@ -3,9 +3,12 @@
 </ion-header>
 
 <ion-content padding>
-    <h1>Minitaurus – creating PHP mini framework<br/><span>(part 1) - in revision</span></h1>
+    <h1>Minitaurus – creating PHP mini framework<br/><span>(part 1)</span></h1>
+    <blockquote>
+        <p>This page is being revised, please do not follow this tutorial now. If you need, old framework code is in GitHub <a href="https://github.com/Antarian/Minitaurus">Minitaurus</a>.</p>
+    </blockquote>
     <div style="text-align: right;">
-        <ion-button size="small" color="light" href="/minitaurus-part2">Part 2 &raquo;</ion-button>
+        <ion-button size="small" color="light" routerLink="/minitaurus-part2">Part 2 &raquo;</ion-button>
     </div>
     <p>If you using some big framework (Symfony 4, Zend 2, CakePHP etc.) and place your code on GitHub to show some of your work, it is great. It’s good for others to see how you write the code, documentation and handle architecture or solve problems.</p>
     <p>But large frameworks can be complicated for some small working example. Because people on other side must use same framework too and install it somehow, to see your code in action. Some of the frameworks can have really complicated setup and install.</p>
@@ -109,6 +112,6 @@ defined('APPLICATION_NICE_URLS') || define('APPLICATION_NICE_URLS',
 ($nice_urls ? RouterConfig::NICE_URLS_ENBL : RouterConfig::NICE_URLS_DIS));</code></pre>
             <p>Here we set environment and nice urls for router. We will create DebugConfig and RouterConfig in next parts of this tutorial.</p>
     <div style="text-align: right;">
-        <ion-button size="small" color="light" href="/minitaurus-part2">Part 2 &raquo;</ion-button>
+        <ion-button size="small" color="light" routerLink="/minitaurus-part2">Part 2 &raquo;</ion-button>
     </div>
 </ion-content>

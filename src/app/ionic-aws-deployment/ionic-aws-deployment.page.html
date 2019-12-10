@@ -1,7 +1,5 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>ionic-aws-deployment</ion-title>
-  </ion-toolbar>
+    <app-top-toolbar pageTitle="Ionic 4 deployment to AWS with CICD"></app-top-toolbar>
 </ion-header>
 
 <ion-content>
@@ -9,7 +7,7 @@
     <p>This is step by step setup how to manage code deployment from GitHub to AWS for your Ionic 4 AngularJS PWA.</p>
 
     <h3>Step 1: Required project changes</h3>
-    <p>We will use sample Ionic 4 app from <code><a href="">antarian/ionic-4-aws-cicd</a></code> repository. You can either download zip file or fork it. But these steps should be applicable to any Ionic 4 project.</p>
+    <p>We will use sample Ionic 4 app from <code><a href="">Antarian/ionic-4-aws-cicd</a></code> repository. You can download zip file, fork it or directly create yours, if you . But these steps should be applicable to any Ionic 4 project.</p>
     <p>In a root folder of your Ionic 4 project put the file <code>buildspec.yml</code> defined by rules of AWS CodeBuild with this content:</p>
     <pre><code>version: 0.2
 
@@ -42,17 +40,30 @@ artifacts:
     <p>We will also alter <code>package.json</code> file to contain changes relevant for build</p>
     <pre><code>{{'{'}}}
     "scripts": {{'{'}}
-        ...,
+        <span>...,</span>
         "build:prod": "./node_modules/.bin/ionic build --prod"
     },
-    ...,
+    <span>...,</span>
     "dependencies": {{'{'}}
-        ...,
+        <span>...,</span>
         "ionic": "^5.4.10",
-        ...
+        <span>...</span>
     }
 }</code></pre>
     <p>Explanation: <strong>build:prod</strong> is pointing to local Ionic CLI, which is added to <code>dependencies</code>.</p>
 
+    <h3>Step 2: Creating AWS S3 bucket</h3>
+    <p>I hope, if you reading this, you already have your AWS console account. Access Amazon S3 home page<br />
+        <a href="https://console.aws.amazon.com/s3/home">Amazon S3</a><br />
+        and start creating new bucket by hitting button "+ Create bucket"
+        <ion-img src=""></ion-img>
+    </p>
+    <p>Enter DNS compliant bucket name and select region. I will name it <code>ionicawscicd</code> and my closest region is EU (London).<br />
+        <ion-img src=""></ion-img>
+       Let all other steps on default for now. We may change them later.
+    </p>
+    <p>Your bucket should be now created and we can continue to next step.</p>
+
+    <h3>Step 3: Creating CodeDeploy pipeline</h3>
 
 </ion-content>
