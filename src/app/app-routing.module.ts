@@ -21,7 +21,8 @@ const routes: Routes = [
     },
   { path: 'minitaurus-part2', loadChildren: './minitaurus-part2/minitaurus-part2.module#MinitaurusPart2PageModule' },
   { path: 'minitaurus-part3', loadChildren: './minitaurus-part3/minitaurus-part3.module#MinitaurusPart3PageModule' },
-  { path: 'minitaurus-part4', loadChildren: './minitaurus-part4/minitaurus-part4.module#MinitaurusPart4PageModule' }
+  { path: 'minitaurus-part4', loadChildren: './minitaurus-part4/minitaurus-part4.module#MinitaurusPart4PageModule' },
+  { path: 'ionic-aws-deployment', loadChildren: './ionic-aws-deployment/ionic-aws-deployment.module#IonicAwsDeploymentPageModule' }
 ];
 
 @NgModule({

@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>ionic-aws-deployment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <h1>Ionic 4 deployment to AWS</h1>
+    <p>This is step by step setup how to manage code deployment from GitHub to AWS for your Ionic 4 AngularJS PWA.</p>
+
+    <h3>Step 1: Required project changes</h3>
+    <p>We will use sample Ionic 4 app from <code><a href="">antarian/ionic-4-aws-cicd</a></code> repository. You can either download zip file or fork it. But these steps should be applicable to any Ionic 4 project.</p>
+    <p>In a root folder of your Ionic 4 project put the file <code>buildspec.yml</code> defined by rules of AWS CodeBuild with this content:</p>
+    <pre><code>version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+  pre_build:
+    commands:
+      - yarn install
+  build:
+    commands:
+      - npm run build:prod
+artifacts:
+  files:
+    - '**/*'
+  base-directory: www</code></pre>
+    <p>Explanation of phases</p>
+    <ul>
+        <li><strong>install</strong> - nodejs as runtime environment, as we are building Ionic 4/Angular 8 project</li>
+        <li><strong>pre-build</strong> - yarn install to get all required dependencies for build</li>
+        <li><strong>build</strong> - npm running build command, which is pointing to our <code>package.json</code> file</li>
+    </ul>
+    <p>Explanation of artifacts</p>
+    <ul>
+      <li><strong>files</strong> - which types of files build pipeline should use</li>
+      <li><strong>base-directory</strong> - directory in which where build files can be found</li>
+    </ul>
+
+    <p>We will also alter <code>package.json</code> file to contain changes relevant for build</p>
+    <pre><code>{{'{'}}}
+    "scripts": {{'{'}}
+        ...,
+        "build:prod": "./node_modules/.bin/ionic build --prod"
+    },
+    ...,
+    "dependencies": {{'{'}}
+        ...,
+        "ionic": "^5.4.10",
+        ...
+    }
+}</code></pre>
+    <p>Explanation: <strong>build:prod</strong> is pointing to local Ionic CLI, which is added to <code>dependencies</code>.</p>
+
+
+</ion-content>
