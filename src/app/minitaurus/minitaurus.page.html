@@ -4,12 +4,15 @@
 
 <ion-content padding>
     <h1>Minitaurus – creating PHP mini framework<br/><span>(part 1)</span></h1>
-    <blockquote>
-        <p>This page is being revised, please do not follow this tutorial now. If you need, old framework code is in GitHub <a href="https://github.com/Antarian/Minitaurus">Minitaurus</a>.</p>
-    </blockquote>
     <div style="text-align: right;">
         <ion-button size="small" color="light" routerLink="/minitaurus-part2">Part 2 &raquo;</ion-button>
     </div>
+    <p>Knowledge requirements for this tutorial:</p>
+    <ul>
+        <li>Docker - installed</li>
+        <li>PHP - basics</li>
+        <li>Git/GitHub - basics</li>
+    </ul>
     <p>If you using some big framework (Symfony 4, Zend 2, CakePHP etc.) and place your code on GitHub to show some of your work, it is great. It’s good for others to see how you write the code, documentation and handle architecture or solve problems.</p>
     <p>But large frameworks can be complicated for some small working example. Because people on other side must use same framework too and install it somehow, to see your code in action. Some of the frameworks can have really complicated setup and install.</p>
     <p>This inspired me to create some small custom mini framework in 2016. And also to learn more behind basics of large frameworks.</p>
@@ -29,7 +32,7 @@
         <li>simple ACL</li>
         <li>database access</li>
     </ul>
-    <p>I hope you have some environment, like Docker, Vagrant, LAMP, WAMP to develop in. I am using Docker on Ubuntu linux or on MacOS. It’s not in scope of this tutorial to setup PHP environment. I will just place here some <code>Dockerfile</code> content.</p>
+    <p>I hope you have some environment, like Docker, Vagrant, LAMP, WAMP to develop in. I am using Docker on Ubuntu linux or on MacOS. It’s not in scope of this tutorial to setup different PHP environments. I will just place here my Docker setup. <code>Dockerfile</code> content.</p>
     <pre><code># development docker file
 FROM php:7.2-cli
 
@@ -43,7 +46,7 @@ RUN cp /usr/src/php/php.ini-development /usr/local/etc/php/php.ini
 # prepare workdir
 RUN mkdir -p /usr/src/minitaurus;
 WORKDIR /usr/src/minitaurus</code></pre>
-    <p>and also <code>docker-compose.yaml</code> file. I am usually using this to simplify setup</p>
+    <p>and also <code>docker-compose.yaml</code> file. May be little overkill for one docker file, but I am usually using this to centralise setup of multiple development machines.</p>
     <pre><code># development docker-compose file
 version: '3.6'
 services:
@@ -59,7 +62,7 @@ services:
         source: ./
         target: /usr/src/minitaurus
     command: "php -S 0.0.0.0:8080"</code></pre>
-    <p>and also to add some <code>README.md</code> file &raquo; <a href="">GitHub link</a></p>
+    <p>and also to add some <code>README.md</code> file &raquo; <a href="https://github.com/Antarian/Minitaurus/blob/tutorial-part1/README.md">GitHub link</a></p>
     <p>We want to allow other people to use our project any way they want, so we will use open-source MIT license <code>LICENSE.md</code></p>
     <pre><code>### The MIT License
 
@@ -70,20 +73,34 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</code></pre>
-    <p>Because I am using PHPStorm as PHP IDE we need to add <code>.gitignore</code> file with one line to project</p>
+    <p>Because I am using PHPStorm as PHP IDE I need to add <code>.gitignore</code> file with one line to project</p>
     <pre><code>.idea/</code></pre>
+    <p>Now you can try to just run command <code>docker-compose up</code> in root folder. Console should display, that PHP server is running inside of docker. Output similar to this:</p>
+    <pre><code>Starting minitaurus_minitaurus_1 ... done
+Attaching to minitaurus_minitaurus_1
+minitaurus_1  | PHP 7.2.25 Development Server started at Wed Dec 11 21:59:40 2019
+minitaurus_1  | Listening on http://0.0.0.0:8080
+minitaurus_1  | Document root is /usr/src/minitaurus
+minitaurus_1  | Press Ctrl-C to quit.</code></pre>
+    <p>Now if you visit <code>http://0.0.0.0:8080</code> in your browser, it should display PHP <code>404 Not found</code> page with sentence <code>The requested resource / was not found on this server.</code>.</p>
+    <p>This is completely OK for now and showing us, that our Docker environment and PHP server are ready.</p>
+    <p>We can now add <code>index.php</code> file to our project</p>
+    <pre><code>&lt;?php
+/* index.php */
+echo "Hello Worl... in AI age? Really? Hello beautiful, I am your creation. Do you like what you see?";
+</code></pre>
+    <p>Now if you refresh browser, you should see exactly same message.</p>
     <h4>Basic setup</h4>
-    <p>We will create file <code>index.php</code> and define some constants for whole application.</p>
+    <p>We will change file <code>index.php</code> and define some constants for whole application.</p>
     <pre><code>&lt;?php
 /* index.php */
 // define location of index.php as BASEDIR constant for easier manipulation with files
 defined('BASEDIR') || define("BASEDIR", dirname(__FILE__));
 
-// for using directory separator you must have installed Directories - PHP file system related extensions
-// if you don't have it installed, replace DIRECTORY_SEPARATOR by "/" for Linux or "\\" for Windows
+// shortening constant from Directories - PHP file system related extensions included in core PHP
 defined('DIRSEP') || define("DIRSEP", DIRECTORY_SEPARATOR);</code></pre>
-            <p>We will need also one function which will make our life with PHP namespaces much easier.</p>
-            <pre><code>// autoload classes through autoload function
+    <p>We will need also one function which will make our life with PHP namespaces much easier.</p>
+    <pre><code>// autoload classes through autoload function
 spl_autoload_register(function($class) {{"{"}}
     // convert namespace to full file path
     $class = BASEDIR . DIRSEP . str_replace('\\', DIRSEP, $class) . '.php';
@@ -95,22 +112,17 @@ spl_autoload_register(function($class) {{"{"}}
             require_once($class);
         }
     } catch(\Exception $e) {{"{"}}
-        // handle the error
-        echo $e->getMessage();
+        // handle the exception and stack trace
+        echo nl2br('Error message: ' . PHP_EOL . $e->getMessage() . PHP_EOL);
+        echo nl2br('Stack trace:' . PHP_EOL . $e->getTraceAsString() . PHP_EOL);
     }
 });</code></pre>
-            <p>This function is class auto-loader. It converts class name with namespace, one to one, to folder structure with class named file.</p>
-            <p>As last for this part of tutorial we add to the index.php two other constants.</p>
-            <pre><code>// define application environment type constant value from environment variable or set "production" otherwise
-defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : DebugConfig::PROD_ENV));
-// load debug settings
-DebugConfig::load();
-
-// define if application will use nice urls
-$nice_urls = (getenv('APPLICATION_NICE_URLS') ? true : false);
-defined('APPLICATION_NICE_URLS') || define('APPLICATION_NICE_URLS',
-($nice_urls ? RouterConfig::NICE_URLS_ENBL : RouterConfig::NICE_URLS_DIS));</code></pre>
-            <p>Here we set environment and nice urls for router. We will create DebugConfig and RouterConfig in next parts of this tutorial.</p>
+    <p>This function is class auto-loader. It converts class name with namespace, one to one, to folder structure with class named file.</p>
+    <p>We can now add our first non-existent class as last line in <code>index.php</code></p>
+    <pre><code>$nonExistingClass = new FirstController();</code></pre>
+    <p>If we now refresh the page, there is one error message and stacktrace from our autoload function. But there is also unwanted error message under ours.</p>
+    <p>PHP is rich and old language, it can give you error or exception. We will tackle this behaviour with error and exception handlers in next part of this tutorial.</p>
+    <p>Complete source code for Part 1 of tutorial is on GitHub: <a href="https://github.com/Antarian/Minitaurus/tree/tutorial-part1">Antarian/Minitaurus - tutorial-part1</a>.</p>
     <div style="text-align: right;">
         <ion-button size="small" color="light" routerLink="/minitaurus-part2">Part 2 &raquo;</ion-button>
     </div>

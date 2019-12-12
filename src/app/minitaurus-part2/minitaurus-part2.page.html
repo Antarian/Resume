@@ -12,7 +12,17 @@
         <ion-button size="small" color="light" routerLink="/minitaurus-part3">Part 3 &raquo;</ion-button>
     </div>
     <h3>Adding debug</h3>
-            <p>As I mentioned in first part of this tutorial, we will now create <code>DebugConfig</code> class. In base folder of project create folder structure <code>AntarianMinitaurus\Debug</code>. Within <code>Debug</code> folder create file <code>DebugConfig.php</code> and place this content into it.</p>
+
+    <p>As last for this part of tutorial we add to the index.php two other constants.</p>
+    <pre><code>// define application environment type constant value from environment variable or set "production" otherwise
+defined('APP_ENV') || define('APP_ENV', (getenv('APP_ENV') ? getenv('APP_ENV') : 'production'));
+
+// define if application will use nice urls
+$nice_urls = (getenv('APP_NICE_URLS') ? getenv('APP_NICE_URLS') : false);
+defined('APP_NICE_URLS') || define('APP_NICE_URLS', $nice_urls);</code></pre>
+    <p>Here we set environment and nice urls for router. We will create DebugConfig and RouterConfig in next parts of this tutorial.</p>
+
+    <p>As I mentioned in first part of this tutorial, we will now create <code>DebugConfig</code> class. In base folder of project create folder structure <code>AntarianMinitaurus\Debug</code>. Within <code>Debug</code> folder create file <code>DebugConfig.php</code> and place this content into it.</p>
             <pre><code>&lt;?php
 /* \AntarianMinitaurus\Debug\DebugConfig.php */
 namespace AntarianMinitaurus\Debug;
