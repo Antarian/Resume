@@ -19,10 +19,22 @@ const routes: Routes = [
         path: 'minitaurus',
         loadChildren: () => import('./minitaurus/minitaurus.module').then(m => m.MinitaurusPageModule)
     },
-  { path: 'minitaurus-part2', loadChildren: './minitaurus-part2/minitaurus-part2.module#MinitaurusPart2PageModule' },
-  { path: 'minitaurus-part3', loadChildren: './minitaurus-part3/minitaurus-part3.module#MinitaurusPart3PageModule' },
-  { path: 'minitaurus-part4', loadChildren: './minitaurus-part4/minitaurus-part4.module#MinitaurusPart4PageModule' },
-  { path: 'ionic-aws-deployment', loadChildren: './ionic-aws-deployment/ionic-aws-deployment.module#IonicAwsDeploymentPageModule' }
+    {
+        path: 'minitaurus-part2',
+        redirectTo: 'minitaurus/part2',
+        pathMatch: 'full'
+    },
+    {
+        path: 'minitaurus-part3',
+        redirectTo: 'minitaurus/part3',
+        pathMatch: 'full'
+    },
+    {
+        path: 'minitaurus-part4',
+        redirectTo: 'minitaurus/part4',
+        pathMatch: 'full'
+    },
+    { path: 'ionic-aws-deployment', loadChildren: './ionic-aws-deployment/ionic-aws-deployment.module#IonicAwsDeploymentPageModule' }
 ];
 
 @NgModule({

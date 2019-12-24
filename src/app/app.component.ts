@@ -18,7 +18,7 @@ export class AppComponent {
         },
         {
             title: 'Minitaurus FW',
-            url: '/minitaurus',
+            url: '/minitaurus/part1',
             icon: 'code-working'
         },
         {
