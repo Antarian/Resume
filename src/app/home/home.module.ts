@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import { SharedComponentsModule } from "~app/shared-components";
+import { SharedComponentsModule } from "@app/shared-components";
 
 @NgModule({
     imports: [

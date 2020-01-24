@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { TopToolbarComponent } from '~app/shared-components/top-toolbar';
+import { TopToolbarComponent } from '@app/shared-components/top-toolbar';
 
 @NgModule({
     declarations: [

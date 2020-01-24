@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { MinitaurusPart1Page } from './minitaurus-part1.page';
-import { SharedComponentsModule } from "~app/shared-components";
+import { SharedComponentsModule } from "@app/shared-components";
 
 const routes: Routes = [
   {

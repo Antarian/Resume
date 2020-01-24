@@ -19,10 +19,10 @@
       "dom"
     ],
     "paths": {
-      "~app/*": [
+      "@app/*": [
         "src/app/*"
       ],
-      "~environments/*": [
+      "@environments/*": [
         "src/environments/*"
       ]
     }
