@@ -18,6 +18,8 @@
                         <p>More precisely it is deployed from GitHub <a href="https://github.com/Antarian/Resume">Antarian/Resume</a> codebase through CodeDeploy pipelines to S3 bucket covered with CloudFront with domain setup in Route53.<!--<br />
                            You can discover more about this setup in <a routerLink="/ionic-aws-deployment">Ionic 4 deployment to AWS</a> article.-->
                         </p>
+                        <p *ngIf="showBtn">This website is built as PWA. If you want, you can install this website on your home screen.</p>
+                        <ion-button expand="full" (click)="add_to_home()" *ngIf="showBtn">Install PWA</ion-button>
                     </ion-card-content>
                 </ion-card>
             </ion-col>
