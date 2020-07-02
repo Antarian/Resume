@@ -1,8 +1,8 @@
 {
   "name": "Peter Labos PWA",
-  "short_name": "plpwa",
+  "short_name": "PeterLabosPWA",
   "theme_color": "#6887bd",
-  "background_color": "#fafafa",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",

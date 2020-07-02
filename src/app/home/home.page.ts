@@ -28,12 +28,12 @@ export class HomePage {
         //button click event to show the promt
 
         window.addEventListener('appinstalled', (event) => {
-            console.log('installed');
+            // console.log('installed');
         });
 
 
         if (window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('display-mode is standalone');
+            // console.log('display-mode is standalone');
         }
     }
 
@@ -46,9 +46,9 @@ export class HomePage {
         this.deferredPrompt.userChoice
           .then((choiceResult) => {
               if (choiceResult.outcome === 'accepted') {
-                  console.log('User accepted the prompt');
+                  // console.log('User accepted the prompt');
               } else {
-                  console.log('User dismissed the prompt');
+                  // console.log('User dismissed the prompt');
               }
               this.deferredPrompt = null;
           });

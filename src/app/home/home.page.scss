@@ -1,4 +1,37 @@
+ion-row>h3 {
+  margin-left: 1em;
+}
+
+ion-row>p {
+  margin-left: 2em;
+}
+
 .welcome-card img {
   max-height: 35vh;
   overflow: hidden;
+}
+
+.one-line {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.heading {
+  position: relative;
+}
+
+.heading img {
+  z-index: 0;
+  width: 100%;
+  max-height: 308px;
+}
+
+.heading h1 {
+  z-index: 1;
+  position: absolute;
+  top: 45%;
+  text-align: center;
+  color: white;
+  width: 100%;
 }
